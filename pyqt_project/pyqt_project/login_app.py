@@ -1,7 +1,7 @@
 import sys
 import style
 from PyQt5 import (QtWidgets, QtGui, QtCore)
-# asfs
+
 
 #############################################################################
 class Dialog(QtWidgets.QWidget):
