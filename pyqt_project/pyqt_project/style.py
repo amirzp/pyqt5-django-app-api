@@ -1,11 +1,15 @@
 def login_back_frame():
     return """
+    QLabel{
+    color: #23272a;
+    }
+    
     QPushButton{
     border: none;
     margin-right: 7% auto;
-    border-radius: 15%;
-    width: 30%;
-    height: 30%;
+    border-radius: 25%;
+    width: 50%;
+    height: 50%;
     }
     
     QPushButton::hover{

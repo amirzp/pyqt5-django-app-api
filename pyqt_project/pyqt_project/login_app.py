@@ -10,7 +10,7 @@ class Dialog(QtWidgets.QWidget):
     def __init__(self, win=None):
         super().__init__()
 
-        self.setGeometry(150, 150, 800, 600)
+        self.setGeometry(150, 150, 700, 500)
         self.win = win
 
         self.mainLayout = QtWidgets.QVBoxLayout()
@@ -42,8 +42,12 @@ class Dialog(QtWidgets.QWidget):
         self.backFrame = QtWidgets.QFrame()
         self.backFrame.setStyleSheet(style.login_back_frame())
         self.backButton = QtWidgets.QPushButton()
+        # image = QtGui.QPixmap("file/Icon/back.png")
+        # image.scaled(100, 100)
         self.backButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/back.png")))
-        self.backLabel = QtWidgets.QLabel('login')
+        self.backButton.setIconSize(QtCore.QSize(40, 40))
+        self.backLabel = QtWidgets.QLabel('Register')
+        self.backLabel.setFont(QtGui.QFont("Gabriola", 19))
 
         self._id = None
         self.window = None
@@ -64,8 +68,9 @@ class Dialog(QtWidgets.QWidget):
 
         self.bottomLayout.addStretch()
         self.mainLayout.addWidget(self.backFrame, 2)
+        self.mainLayout.addStretch(2)
         self.mainLayout.addLayout(self.middleLayout, 4)
-        self.mainLayout.addLayout(self.bottomLayout, 3)
+        self.mainLayout.addLayout(self.bottomLayout, 4)
 
         self.middleLayout.addStretch(1)
         self.middleLayout.addWidget(self.frame, 2)
@@ -85,6 +90,7 @@ class Dialog(QtWidgets.QWidget):
             self.confirmPassLine.setStyleSheet(style.line_edit())
             self.childMiddleLayout.addRow(self.confirmPassLabel, self.confirmPassLine)
             self.labelLog.setText("REGISTER HERE")
+            self.backLabel.setText('Login')
             self.logButton.setText("Register")
         self.childMiddleLayout.verticalSpacing()
 
