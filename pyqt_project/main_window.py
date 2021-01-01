@@ -1,8 +1,7 @@
 from PyQt5 import (QtWidgets, QtGui)
 
-import loginPage
+import login_app
 import sys
-import studentWindow
 
 
 class MainWindow:
@@ -50,10 +49,23 @@ class MainWindow:
                 self.studentWindow = None
 
         if not self.studentWindow:
-            self.loginWindow = loginPage.Dialog()
-            self.loginWindow.logButton.clicked.connect(self.student_log)
+            self.loginWindow = login_app.Dialog()
+            self.loginWindow.logButton.clicked.connect(self.login_click)
+            self.loginWindow.backButton.clicked.connect(self.register)
             self.flag = self.loginWindow.flag
             self.loginWindow.show()
+
+    def register(self):
+        self.loginWindow = login_app.Dialog('reg')
+        self.loginWindow.logButton.clicked.connect(self.register_click)
+        self.loginWindow.backButton.clicked.connect(self.login)
+        self.loginWindow.show()
+
+    def register_click(self):
+        pass
+
+    def login_click(self):
+        pass
 
 
 if __name__ == '__main__':
