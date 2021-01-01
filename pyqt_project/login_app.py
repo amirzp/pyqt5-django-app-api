@@ -3,10 +3,8 @@ import style
 from PyQt5 import (QtWidgets, QtGui, QtCore)
 
 
-#############################################################################
 class Dialog(QtWidgets.QWidget):
 
-    # ========================================================================
     def __init__(self, win=None):
         super().__init__()
 
