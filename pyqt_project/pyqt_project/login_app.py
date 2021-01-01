@@ -42,8 +42,6 @@ class Dialog(QtWidgets.QWidget):
         self.backFrame = QtWidgets.QFrame()
         self.backFrame.setStyleSheet(style.login_back_frame())
         self.backButton = QtWidgets.QPushButton()
-        # image = QtGui.QPixmap("file/Icon/back.png")
-        # image.scaled(100, 100)
         self.backButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/back.png")))
         self.backButton.setIconSize(QtCore.QSize(40, 40))
         self.backLabel = QtWidgets.QLabel('Register')

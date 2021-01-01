@@ -22,8 +22,6 @@ def login_back_frame():
     }
     """
 
-# #################
-
 
 def main_frame():
     return """    
@@ -55,6 +53,7 @@ def log_button():
     background-color: #4e6486;
     }
     """
+# #################
 
 
 def left_layout_student():
