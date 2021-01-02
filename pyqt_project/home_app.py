@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtGui
 import sys
 import style
 import add_contact
+import list_contact
 
 
 class Window(QtWidgets.QWidget):
@@ -27,7 +28,7 @@ class Window(QtWidgets.QWidget):
         self.topLayout.setStyleSheet(style.top_layout_home())
         self.topLayoutChild = QtWidgets.QHBoxLayout()
         # bottom layout >>
-        self.bottomLayout = QtWidgets.QVBoxLayout()
+        self.bottomLayout = QtWidgets.QFrame()
 
         # ########### Tool Bar >>
         self.toolBar = QtWidgets.QToolBar("ToolBar")
@@ -56,8 +57,14 @@ class Window(QtWidgets.QWidget):
         self.toolBar.addAction(self.addContactAction)
         # Triggered Action >>
         self.addContactAction.triggered.connect(self.add_contact_triggered)
-        # self.addProduct.triggered.connect(self.add_product)
+        self.listContactAction.triggered.connect(self.list_contact)
         # self.sellProduct.triggered.connect(self.add_sell)
+
+    @staticmethod
+    def first_layout():
+        v_box = QtWidgets.QVBoxLayout()
+        v_box.addStretch()
+        return v_box
 
     def ui(self):
         # set layouts >>
@@ -69,23 +76,30 @@ class Window(QtWidgets.QWidget):
         self.topLayoutChild.addWidget(self.exitButton)
         self.topLayout.setLayout(self.topLayoutChild)
 
-        self.bottomLayout.addStretch()
+        # چون QFrame قابل Stretch گرفتن نیست یه تابع میسازیم و یک vBox به این ویجت میدهیم
+        # تا بتوانیم با استفاده از تابع del_layout این ویجت رو حذف کنیم برای ست کردن فرم های بعدی
+        self.bottomLayout.setLayout(self.first_layout())
 
         self.mainLayout.addWidget(self.topLayout)
-        self.mainLayout.addLayout(self.bottomLayout)
+        self.mainLayout.addWidget(self.bottomLayout)
         self.setLayout(self.mainLayout)
 
         self.show()
 
     def del_layout(self):
-        layout = self.mainLayout.takeAt(1).layout()
-        if layout is not None:
-            layout.deleteLater()
+        widget = self.mainLayout.takeAt(1).widget()
+        if widget is not None:
+            widget.deleteLater()
             self.bottomLayout = None
 
     def add_contact_triggered(self):
         self.del_layout()
         self.bottomLayout = add_contact.Window('add')
+        self.mainLayout.addWidget(self.bottomLayout)
+
+    def list_contact(self):
+        self.del_layout()
+        self.bottomLayout = list_contact.Window()
         self.mainLayout.addWidget(self.bottomLayout)
 
 

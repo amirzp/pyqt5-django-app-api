@@ -18,10 +18,8 @@ class Window(QtWidgets.QWidget):
         # ============= button ================
         if self.page == 'add':
             self.addButton = QtWidgets.QPushButton("ADD")
-            # self.addButton.clicked.connect(self.add_member)
         elif self.page == 'edit':
             self.addButton = QtWidgets.QPushButton("EDIT")
-            # self.addButton.clicked.connect(self.add_member)
         # ============= data base ======================
 
         self.ui()
@@ -57,4 +55,3 @@ class Window(QtWidgets.QWidget):
         self.mainLayout.addWidget(self.addButton, 1)
         self.setLayout(self.mainLayout)
         self.show()
-
