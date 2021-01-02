@@ -1,12 +1,13 @@
 from PyQt5 import (QtWidgets, QtGui)
 
 import login_app
+import home_app
 import sys
 
 
 class MainWindow:
     def __init__(self):
-        self.studentWindow = None
+        self.homeWindow = None
         self.loginWindow = None
         self.flag = None
         self.admin_name = None
@@ -18,16 +19,16 @@ class MainWindow:
             self.admin_name = self.loginWindow.admin_name
             self.loginWindow.destroy()
             self.loginWindow = None
-            self.studentWindow = studentWindow.StudentWindow(self.admin_name)
-            self.studentWindow.toolBarLog.clicked.connect(self.login)
-            self.studentWindow.toolBarExit.clicked.connect(self.student_exit)
-            self.studentWindow.ui()
+            self.homeWindow = home_app.Window(self.admin_name)
+            self.homeWindow.logoutButton.clicked.connect(self.login)
+            self.homeWindow.exitButton.clicked.connect(self.student_exit)
+            self.homeWindow.ui()
 
     def student_exit(self):
-        if self.studentWindow:
+        if self.homeWindow:
 
             if QtWidgets.QMessageBox.information(
-                    self.studentWindow,
+                    self.homeWindow,
                     "Warning",
                     "Are you sure want to exit?",
                     QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Yes
@@ -36,19 +37,19 @@ class MainWindow:
                 sys.exit(0)
 
     def login(self):
-        if self.studentWindow:
+        if self.homeWindow:
 
             if QtWidgets.QMessageBox.information(
-                    self.studentWindow,
+                    self.homeWindow,
                     "Warning",
                     "Are you sure want to Log out?",
                     QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Yes
             ) == QtWidgets.QMessageBox.Yes:
 
-                self.studentWindow.destroy()
-                self.studentWindow = None
+                self.homeWindow.destroy()
+                self.homeWindow = None
 
-        if not self.studentWindow:
+        if not self.homeWindow:
             self.loginWindow = login_app.Dialog()
             self.loginWindow.logButton.clicked.connect(self.login_click)
             self.loginWindow.backButton.clicked.connect(self.register)

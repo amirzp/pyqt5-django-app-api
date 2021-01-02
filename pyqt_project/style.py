@@ -58,20 +58,20 @@ def log_button():
 def top_layout_home():
     return """
     QFrame{
-    background-color: #3E323C;
+    background-color: #472F3C;
     border-radius: 8%;
     }
     
     QToolBar{
-    spacing: 10px;
+    spacing: 7px;
     }
 
     QPushButton{
     border: none;
     margin-right: 7% auto;
-    border-radius: 15%;
-    width: 30%;
-    height: 30%;
+    border-radius: 20%;
+    width: 40%;
+    height: 40%;
     }
 
     QPushButton::hover{

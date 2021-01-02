@@ -13,9 +13,10 @@ class Window(QtWidgets.QWidget):
         image = QtGui.QPixmap('file/Icon/admin.png')
         f = image.scaled(40, 40)
         self.adminImageLabel.setPixmap(f)
-        self.adminName = QtWidgets.QLabel(admin_name.capitalize()+'      ')
-        self.loginButton = QtWidgets.QPushButton()
-        self.loginButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/logout.svg")))
+        self.adminName = QtWidgets.QLabel(admin_name.capitalize()+'  ')
+        self.adminName.setFont(QtGui.QFont("Dyuthi", 13))
+        self.logoutButton = QtWidgets.QPushButton()
+        self.logoutButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/logout.svg")))
         self.exitButton = QtWidgets.QPushButton()
         self.exitButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/off.svg")))
         # ########### Layouts >>
@@ -44,6 +45,7 @@ class Window(QtWidgets.QWidget):
         )
         # self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         # Add Product >>
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.adminPanelAction)
         self.toolBar.addSeparator()
         # Add Member >>
@@ -56,15 +58,13 @@ class Window(QtWidgets.QWidget):
         # self.addProduct.triggered.connect(self.add_product)
         # self.sellProduct.triggered.connect(self.add_sell)
 
-        self.ui()
-
     def ui(self):
         # set layouts >>
         self.topLayoutChild.addWidget(self.adminImageLabel)
         self.topLayoutChild.addWidget(self.adminName)
         self.topLayoutChild.addWidget(self.toolBar)
         self.topLayoutChild.addStretch()
-        self.topLayoutChild.addWidget(self.loginButton)
+        self.topLayoutChild.addWidget(self.logoutButton)
         self.topLayoutChild.addWidget(self.exitButton)
         self.topLayout.setLayout(self.topLayoutChild)
 
@@ -72,9 +72,11 @@ class Window(QtWidgets.QWidget):
         self.mainLayout.addStretch()
         self.setLayout(self.mainLayout)
 
+        self.show()
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = Window('aMir')
-    window.show()
+    window.ui()
     sys.exit(app.exec_())
