@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui
 import sys
 import style
+import add_contact
 
 
 class Window(QtWidgets.QWidget):
@@ -26,7 +27,7 @@ class Window(QtWidgets.QWidget):
         self.topLayout.setStyleSheet(style.top_layout_home())
         self.topLayoutChild = QtWidgets.QHBoxLayout()
         # bottom layout >>
-        self.bottomLayout = QtWidgets.QHBoxLayout()
+        self.bottomLayout = QtWidgets.QVBoxLayout()
 
         # ########### Tool Bar >>
         self.toolBar = QtWidgets.QToolBar("ToolBar")
@@ -54,7 +55,7 @@ class Window(QtWidgets.QWidget):
         # Sell Product >>
         self.toolBar.addAction(self.addContactAction)
         # Triggered Action >>
-        # self.addMember.triggered.connect(self.add_member)
+        self.addContactAction.triggered.connect(self.add_contact_triggered)
         # self.addProduct.triggered.connect(self.add_product)
         # self.sellProduct.triggered.connect(self.add_sell)
 
@@ -68,11 +69,24 @@ class Window(QtWidgets.QWidget):
         self.topLayoutChild.addWidget(self.exitButton)
         self.topLayout.setLayout(self.topLayoutChild)
 
+        self.bottomLayout.addStretch()
+
         self.mainLayout.addWidget(self.topLayout)
-        self.mainLayout.addStretch()
+        self.mainLayout.addLayout(self.bottomLayout)
         self.setLayout(self.mainLayout)
 
         self.show()
+
+    def del_layout(self):
+        layout = self.mainLayout.takeAt(1).layout()
+        if layout is not None:
+            layout.deleteLater()
+            self.bottomLayout = None
+
+    def add_contact_triggered(self):
+        self.del_layout()
+        self.bottomLayout = add_contact.Window('add')
+        self.mainLayout.addWidget(self.bottomLayout)
 
 
 if __name__ == '__main__':

@@ -84,6 +84,19 @@ def top_layout_home():
     }
     """
 
+
+def add_contact_layout():
+    return """
+    QGroupBox{
+    border-radius: 7%;
+    }
+
+    QLineEdit{
+    border: none;
+    border-bottom: 1px solid #A1A1A1;
+    }
+    """
+
 # #################
 
 
