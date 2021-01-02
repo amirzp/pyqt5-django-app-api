@@ -53,6 +53,37 @@ def log_button():
     background-color: #4e6486;
     }
     """
+
+
+def top_layout_home():
+    return """
+    QFrame{
+    background-color: #3E323C;
+    border-radius: 8%;
+    }
+    
+    QToolBar{
+    spacing: 10px;
+    }
+
+    QPushButton{
+    border: none;
+    margin-right: 7% auto;
+    border-radius: 15%;
+    width: 30%;
+    height: 30%;
+    }
+
+    QPushButton::hover{
+        background-color : #9999FF;
+        color: #000000;
+    }
+
+    QPushButton::pressed{
+    background-color: #4e6486;
+    }
+    """
+
 # #################
 
 
