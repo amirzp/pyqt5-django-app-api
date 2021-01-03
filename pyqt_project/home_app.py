@@ -3,6 +3,7 @@ import sys
 import style
 import add_contact
 import list_contact
+import admin_panel
 
 
 class Window(QtWidgets.QWidget):
@@ -58,7 +59,7 @@ class Window(QtWidgets.QWidget):
         # Triggered Action >>
         self.addContactAction.triggered.connect(self.add_contact_triggered)
         self.listContactAction.triggered.connect(self.list_contact)
-        # self.sellProduct.triggered.connect(self.add_sell)
+        self.adminPanelAction.triggered.connect(self.admin_panel)
 
     @staticmethod
     def first_layout():
@@ -100,6 +101,11 @@ class Window(QtWidgets.QWidget):
     def list_contact(self):
         self.del_layout()
         self.bottomLayout = list_contact.Window()
+        self.mainLayout.addWidget(self.bottomLayout)
+
+    def admin_panel(self):
+        self.del_layout()
+        self.bottomLayout = admin_panel.Window()
         self.mainLayout.addWidget(self.bottomLayout)
 
 
