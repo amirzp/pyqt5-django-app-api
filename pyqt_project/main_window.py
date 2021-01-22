@@ -3,28 +3,28 @@ from PyQt5 import (QtWidgets, QtGui)
 import login_app
 import home_app
 import sys
+import request_api
 
 
 class MainWindow:
     def __init__(self):
+        self.request = request_api.ApiRequest()
         self.homeWindow = None
         self.loginWindow = None
-        self.flag = None
         self.admin_name = None
         self.login()
 
-    def student_log(self):
-        flag = self.loginWindow.click_log()
-        if flag:
-            self.admin_name = self.loginWindow.admin_name
-            self.loginWindow.destroy()
-            self.loginWindow = None
-            self.homeWindow = home_app.Window(self.admin_name)
-            self.homeWindow.logoutButton.clicked.connect(self.login)
-            self.homeWindow.exitButton.clicked.connect(self.student_exit)
-            self.homeWindow.ui()
+    def home_app(self):
+        # flag = self.loginWindow.click_log()
+        # if flag:
+        self.loginWindow.destroy()
+        self.loginWindow = None
+        self.homeWindow = home_app.Window(self.admin_name)
+        self.homeWindow.logoutButton.clicked.connect(self.login)
+        self.homeWindow.exitButton.clicked.connect(self.home_exit)
+        self.homeWindow.ui()
 
-    def student_exit(self):
+    def home_exit(self):
         if self.homeWindow:
 
             if QtWidgets.QMessageBox.information(
@@ -53,7 +53,6 @@ class MainWindow:
             self.loginWindow = login_app.Dialog()
             self.loginWindow.logButton.clicked.connect(self.login_click)
             self.loginWindow.backButton.clicked.connect(self.register)
-            self.flag = self.loginWindow.flag
             self.loginWindow.show()
 
     def register(self):
@@ -66,7 +65,23 @@ class MainWindow:
         pass
 
     def login_click(self):
-        pass
+        user = self.loginWindow.userLine.text().lower()
+        password = self.loginWindow.passLine.text()
+        if user and password:
+            data = {
+                "username": f"{user}",
+                "password": f"{password}"
+            }
+            url = 'http://127.0.0.1:8000/contact/v1/token/'
+            request = self.request.login(data=data, url=url)
+            if request is True:
+                self.admin_name = user
+                self.home_app()
+                # return True
+            else:
+                QtWidgets.QMessageBox.information(self.loginWindow, "Warning", request['detail'])
+        else:
+            QtWidgets.QMessageBox.information(self.loginWindow, "Warning", "Fields can not empty")
 
 
 if __name__ == '__main__':

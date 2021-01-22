@@ -47,7 +47,6 @@ class Dialog(QtWidgets.QWidget):
 
         self._id = None
         self.window = None
-        self.flag = None
         self.admin_name = None
 
         self.image0 = QtGui.QImage("file/1.jpg")
