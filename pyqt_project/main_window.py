@@ -15,8 +15,6 @@ class MainWindow:
         self.login()
 
     def home_app(self):
-        # flag = self.loginWindow.click_log()
-        # if flag:
         self.loginWindow.destroy()
         self.loginWindow = None
         self.homeWindow = home_app.Window(self.admin_name)
@@ -62,7 +60,13 @@ class MainWindow:
         self.loginWindow.show()
 
     def register_click(self):
-        pass
+        user = self.loginWindow.userLine.text().lower()
+        password = self.loginWindow.passLine.text()
+        c_password = self.loginWindow.confirmPassLine.text()
+        if user and password and c_password:
+            pass
+        else:
+            QtWidgets.QMessageBox.information(self.loginWindow, "Warning", "Fields can not empty")
 
     def login_click(self):
         user = self.loginWindow.userLine.text().lower()
