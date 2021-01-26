@@ -8,16 +8,17 @@ import request_api
 
 class MainWindow:
     def __init__(self):
-        self.request = request_api.ApiRequest()
+        self.api = request_api.ApiRequest()
         self.homeWindow = None
         self.loginWindow = None
         self.admin_name = None
         self.login()
 
+    # ########## home app options >>
     def home_app(self):
         self.loginWindow.destroy()
         self.loginWindow = None
-        self.homeWindow = home_app.Window(self.admin_name)
+        self.homeWindow = home_app.Window(self.admin_name, self.api)
         self.homeWindow.logoutButton.clicked.connect(self.login)
         self.homeWindow.exitButton.clicked.connect(self.home_exit)
         self.homeWindow.ui()
@@ -33,7 +34,9 @@ class MainWindow:
             ) == QtWidgets.QMessageBox.Yes:
 
                 sys.exit(0)
+    # ########## end home app options <<
 
+    # ########## login app options >>
     def login(self):
         if self.homeWindow:
 
@@ -77,7 +80,7 @@ class MainWindow:
                 "password": f"{password}"
             }
             url = 'http://127.0.0.1:8000/contact/v1/token/'
-            request = self.request.login(data=data, url=url)
+            request = self.api.login(data=data, url=url)
             if request is True:
                 self.admin_name = user
                 self.home_app()
@@ -86,6 +89,7 @@ class MainWindow:
                 QtWidgets.QMessageBox.information(self.loginWindow, "Warning", request['detail'])
         else:
             QtWidgets.QMessageBox.information(self.loginWindow, "Warning", "Fields can not empty")
+    # ########## end login page options <<
 
 
 if __name__ == '__main__':

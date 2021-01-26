@@ -10,6 +10,8 @@ class Window(QtWidgets.QWidget):
         self.bottomLayout = QtWidgets.QHBoxLayout()
         # ######## widgets >>
         self.tableWidget = QtWidgets.QTableWidget()
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
         self.editButton = QtWidgets.QPushButton()
         self.editButton.setIcon(QtGui.QIcon(QtGui.QPixmap("file/Icon/edit.svg")))
         self.deleteButton = QtWidgets.QPushButton()
@@ -28,3 +30,23 @@ class Window(QtWidgets.QWidget):
         self.setLayout(self.mainLayout)
 
         self.show()
+
+    def show_item(self, data: dict):
+        for i in reversed(range(self.tableWidget.rowCount())):
+            self.tableWidget.removeRow(i)
+
+        self.tableWidget.setRowCount(len(data))
+        if not len(data) == 0:
+            self.tableWidget.setColumnCount(len(data[0]))
+            for i, name in enumerate(data[0].keys()):
+                self.tableWidget.setHorizontalHeaderItem(i, QtWidgets.QTableWidgetItem(name.capitalize()))
+
+            self.tableWidget.setColumnHidden(0, True)
+            self.tableWidget.setColumnHidden(5, True)
+            self.tableWidget.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+            self.tableWidget.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+            self.tableWidget.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+
+            for i, dict_item in enumerate(data):
+                for j, item in enumerate(dict_item.keys()):
+                    self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dict_item[item])))
