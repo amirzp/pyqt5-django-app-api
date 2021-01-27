@@ -86,12 +86,3 @@ class ApiRequest:
                 def json():
                     return {'detail': 'server is down.'}
             return Request()
-
-
-if __name__ == '__main__':
-    api = ApiRequest()
-    d = {
-        "username": "amir",
-        "password": "123"
-    }
-    api.login(d, 'http://127.0.0.1:8000/contact/v1/token/')

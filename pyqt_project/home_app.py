@@ -212,6 +212,35 @@ class Window(QtWidgets.QWidget):
         self.del_layout()
         self.bottomLayout = admin_panel.Window()
         self.mainLayout.addWidget(self.bottomLayout)
+        url = 'http://127.0.0.1:8000/contact/v1/user/'
+        request = self.api.get(url=url)
+        if request[0] is True:
+            self.bottomLayout.set_item(request[1])
+            self.bottomLayout.updateButton.clicked.connect(self.update_admin)
+        else:
+            QtWidgets.QMessageBox.information(
+                self,
+                "Warning",
+                request[1]['detail']
+            )
+
+    def update_admin(self):
+        url = f'http://127.0.0.1:8000/contact/v1/user/{self.userID}/'
+        data = self.bottomLayout.get_item()
+        request = self.api.put(url=url, data=data)
+        if request is True:
+            QtWidgets.QMessageBox.information(
+                self.bottomLayout,
+                "Info",
+                "admin is updated."
+            )
+            return self.admin_panel()
+        else:
+            QtWidgets.QMessageBox.information(
+                self.bottomLayout,
+                "Warning",
+                str(request)
+            )
 
     def get_user_id(self):
         url = 'http://127.0.0.1:8000/contact/v1/user/'
