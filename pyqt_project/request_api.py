@@ -5,7 +5,6 @@ class ApiRequest:
     def __init__(self):
         self.__token = None
         self.__refresh = None
-        self.__id = None
         self.__header = None
 
     def get(self, url: str):
@@ -22,6 +21,13 @@ class ApiRequest:
     def post(self, url: str, data: dict):
         request = self.request_api(act='post', url=url, data=data, header=self.__header)
         if request.status_code == 201:
+            return True
+        else:
+            return request.json()
+
+    def put(self, url: str, data: dict):
+        request = self.request_api(act='put', url=url, data=data, header=self.__header)
+        if request.status_code == 200:
             return True
         else:
             return request.json()
@@ -50,7 +56,8 @@ class ApiRequest:
                 request = requests.post(headers=header, json=data, url=url)
                 return request
             elif act == 'put':
-                pass
+                request = requests.put(headers=header, json=data, url=url)
+                return request
             elif act == 'delete':
                 class Request:
                     def __init__(self):

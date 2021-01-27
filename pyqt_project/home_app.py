@@ -12,6 +12,11 @@ class Window(QtWidgets.QWidget):
         self.setGeometry(150, 150, 700, 500)
         self.userID = None
         self.api = api
+
+        # flag for edit or add is add_contact app >>
+        self.flagAddEdit = None
+        # <<
+
         # ########### widgets >>
         self.adminImageLabel = QtWidgets.QLabel()
         image = QtGui.QPixmap('file/Icon/admin.png')
@@ -97,20 +102,30 @@ class Window(QtWidgets.QWidget):
             widget.deleteLater()
             self.bottomLayout = None
 
-    # ######### add contact page options >>
-    def add_contact(self):
+    # ######### add and edit contact page options >>
+    def add_contact(self, data=None):
         self.del_layout()
-        self.bottomLayout = add_contact.Window('add')
-        self.bottomLayout.addButton.clicked.connect(self.add_contact_click)
+        if data is False:
+            self.flagAddEdit = 'add', 0
+            self.bottomLayout = add_contact.Window(self.flagAddEdit[0])
+            self.bottomLayout.addButton.clicked.connect(self.add_contact_click)
+        else:
+            self.flagAddEdit = 'edit', data['id']
+            self.bottomLayout = add_contact.Window(self.flagAddEdit[0])
+            self.bottomLayout.nameLine.setText(data['name'])
+            self.bottomLayout.familyLine.setText(data['family'])
+            self.bottomLayout.phoneLine.setText(data['phone'])
+            self.bottomLayout.emailLine.setText(data['email'])
+            self.bottomLayout.addButton.clicked.connect(self.add_contact_click)
         self.mainLayout.addWidget(self.bottomLayout)
 
     def add_contact_click(self):
-        url = 'http://127.0.0.1:8000/contact/v1/list/'
         name = self.bottomLayout.nameLine.text()
         family = self.bottomLayout.familyLine.text()
         phone = self.bottomLayout.phoneLine.text()
         email = self.bottomLayout.emailLine.text()
         if not (name and family and phone and email) == "":
+
             data = {
                 "name": f"{name}",
                 "family": f"{family}",
@@ -118,18 +133,29 @@ class Window(QtWidgets.QWidget):
                 "email": f"{email}",
                 "user": self.userID
             }
-            request = self.api.post(url=url, data=data)
+            if self.flagAddEdit[0] == 'add':
+                url = 'http://127.0.0.1:8000/contact/v1/list/'
+                request = self.api.post(url=url, data=data)
+            elif self.flagAddEdit[0] == 'edit':
+                url = f'http://127.0.0.1:8000/contact/v1/list/{self.flagAddEdit[1]}/'
+                request = self.api.put(url=url, data=data)
+
             if request is True:
-                QtWidgets.QMessageBox.information(self.bottomLayout, "Info", 'Contact is added.')
+                txt = f'Contact is {self.bottomLayout.page}ed.'
+                QtWidgets.QMessageBox.information(self.bottomLayout, "Info", txt)
+                if self.flagAddEdit[0] == 'add':
+                    self.bottomLayout.nameLine.setText("")
+                    self.bottomLayout.familyLine.setText("")
+                    self.bottomLayout.phoneLine.setText("")
+                    self.bottomLayout.emailLine.setText("")
+                elif self.flagAddEdit[0] == 'edit':
+                    return self.list_contact()
             else:
                 QtWidgets.QMessageBox.information(self.bottomLayout, "Warning", request['detail'])
-            self.bottomLayout.nameLine.setText("")
-            self.bottomLayout.familyLine.setText("")
-            self.bottomLayout.phoneLine.setText("")
-            self.bottomLayout.emailLine.setText("")
         else:
             QtWidgets.QMessageBox.information(self.bottomLayout, "Warning", "Fields can not empty")
-    # ######### end add contact page options <<
+
+    # ######### end add and edit contact page options <<
 
     # ######### list contact page options >>
     def list_contact(self):
@@ -146,7 +172,15 @@ class Window(QtWidgets.QWidget):
             QtWidgets.QMessageBox.information(self.bottomLayout, "Warning", request[1]['detail'])
 
     def edit_click(self):
-        pass
+        if self.bottomLayout.tableWidget.selectionModel().hasSelection():
+            data = self.bottomLayout.get_item()
+            self.add_contact(data)
+        else:
+            QtWidgets.QMessageBox.information(
+                self.bottomLayout,
+                "Warning",
+                "Select an item first"
+            )
 
     def delete_click(self):
         if self.bottomLayout.tableWidget.selectionModel().hasSelection():

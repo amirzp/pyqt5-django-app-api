@@ -50,3 +50,20 @@ class Window(QtWidgets.QWidget):
             for i, dict_item in enumerate(data):
                 for j, item in enumerate(dict_item.keys()):
                     self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dict_item[item])))
+
+    def get_item(self):
+        _id = self.tableWidget.item(self.tableWidget.currentRow(), 0).text()
+        name = self.tableWidget.item(self.tableWidget.currentRow(), 1).text()
+        family = self.tableWidget.item(self.tableWidget.currentRow(), 2).text()
+        phone = self.tableWidget.item(self.tableWidget.currentRow(), 3).text()
+        email = self.tableWidget.item(self.tableWidget.currentRow(), 4).text()
+        user = self.tableWidget.item(self.tableWidget.currentRow(), 5).text()
+        data = {
+            "id": f"{_id}",
+            "name": f"{name}",
+            "family": f"{family}",
+            "phone": f"{phone}",
+            "email": f"{email}",
+            "user": user
+        }
+        return data
