@@ -1,4 +1,4 @@
-from .views import ContactView, UserView
+from .views import ContactView, UserView, CreateUserView
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt import views
@@ -6,6 +6,7 @@ from rest_framework_simplejwt import views
 router = routers.DefaultRouter()
 router.register('list', ContactView)
 router.register('user', UserView)
+router.register('register', CreateUserView)
 
 urlpatterns = [
     path('', include(router.urls)),

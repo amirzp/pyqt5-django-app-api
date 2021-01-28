@@ -21,7 +21,6 @@ class MainWindow:
         self.homeWindow = home_app.Window(self.admin_name, self.api)
         self.homeWindow.logoutButton.clicked.connect(self.login)
         self.homeWindow.exitButton.clicked.connect(self.home_exit)
-        self.homeWindow.ui()
 
     def home_exit(self):
         if self.homeWindow:
@@ -67,7 +66,29 @@ class MainWindow:
         password = self.loginWindow.passLine.text()
         c_password = self.loginWindow.confirmPassLine.text()
         if user and password and c_password:
-            pass
+            if password == c_password:
+                data = {
+                    "username": f"{user}",
+                    "password": f"{password}",
+                    "is_staff": True,
+                    "is_active": True
+                }
+                url = 'http://127.0.0.1:8000/contact/v1/register/'
+                request = self.api.register(data, url)
+                if request is True:
+                    QtWidgets.QMessageBox.information(self.loginWindow, "Warning", 'User is Added.')
+                    self.loginWindow.destroy()
+                    self.loginWindow = None
+                    return self.login()
+                else:
+                    QtWidgets.QMessageBox.information(self.loginWindow, "Warning", str(request))
+
+            else:
+                QtWidgets.QMessageBox.information(
+                    self.loginWindow,
+                    "Warning",
+                    "Those passwords didn't match. please try again"
+                )
         else:
             QtWidgets.QMessageBox.information(self.loginWindow, "Warning", "Fields can not empty")
 

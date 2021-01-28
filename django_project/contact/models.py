@@ -15,3 +15,9 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserModel(models.Model):
+    username = models.CharField(max_length=15)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)

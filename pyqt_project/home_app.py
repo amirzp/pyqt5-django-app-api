@@ -70,6 +70,8 @@ class Window(QtWidgets.QWidget):
         # first time run is class method self.get_user_id is work.
         self.get_user_id()
 
+        self.ui()
+
     @staticmethod
     def first_layout():
         v_box = QtWidgets.QVBoxLayout()

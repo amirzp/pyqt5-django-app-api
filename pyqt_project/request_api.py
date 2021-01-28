@@ -43,7 +43,14 @@ class ApiRequest:
         else:
             return request.json()
 
-    def refresh(self):
+    def register(self, data: dict, url: str):
+        request = self.request_api(act='post', url=url, data=data)
+        if request.status_code == 201:
+            return True
+        else:
+            return request.json()
+
+    def refresh_token(self):
         pass
 
     @staticmethod

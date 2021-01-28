@@ -10,6 +10,7 @@ class ContactSerializers(serializers.ModelSerializer):
 
 
 class UserSerializers(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = (
@@ -21,3 +22,21 @@ class UserSerializers(serializers.ModelSerializer):
             "is_staff",
             "is_active",
         )
+
+
+# UserModel = get_user_model()
+
+
+class CreateSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'is_staff', 'is_active')
+
+    def create(self, validated_data):
+        user = super(CreateSerializer, self).create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
