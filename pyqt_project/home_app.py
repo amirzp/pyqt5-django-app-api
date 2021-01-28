@@ -78,6 +78,13 @@ class Window(QtWidgets.QWidget):
         v_box.addStretch()
         return v_box
 
+    @staticmethod
+    def detail_request(request: dict):
+        txt = ''
+        for i in request:
+            txt += str(request[i][0]) + '\n'
+        return txt
+
     def ui(self):
         # set layouts >>
         self.topLayoutChild.addWidget(self.adminImageLabel)
@@ -238,10 +245,11 @@ class Window(QtWidgets.QWidget):
             )
             return self.admin_panel()
         else:
+            txt = self.detail_request(request)
             QtWidgets.QMessageBox.information(
                 self.bottomLayout,
                 "Warning",
-                str(request)
+                txt
             )
 
     def get_user_id(self):

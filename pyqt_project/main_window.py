@@ -81,7 +81,8 @@ class MainWindow:
                     self.loginWindow = None
                     return self.login()
                 else:
-                    QtWidgets.QMessageBox.information(self.loginWindow, "Warning", str(request))
+                    txt = self.detail_request(request)
+                    QtWidgets.QMessageBox.information(self.loginWindow, "Warning", txt)
 
             else:
                 QtWidgets.QMessageBox.information(
@@ -111,6 +112,13 @@ class MainWindow:
         else:
             QtWidgets.QMessageBox.information(self.loginWindow, "Warning", "Fields can not empty")
     # ########## end login page options <<
+
+    @staticmethod
+    def detail_request(request: dict):
+        txt = ''
+        for i in request:
+            txt += str(request[i][0]) + '\n'
+        return txt
 
 
 if __name__ == '__main__':
